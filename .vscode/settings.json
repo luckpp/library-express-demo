@@ -1,0 +1,8 @@
+{
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "sassFormat.defaultEncoding": "UTF-8"
+}
