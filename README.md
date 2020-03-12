@@ -80,3 +80,49 @@ app.use(morgan('combined'));
 app.use(morgan('tiny'));
 ```
 
+## 3. Project structure
+
+### 3.1. Static files - public directory
+
+Create a `public` folder in the project root and set-up **express** to serve static files from this folder:
+```javascript
+app.use(express.static(path.join(__dirname, 'public')));
+```
+
+Copy all dependencies in `public` folder (for the moment the dependencies are `boostrap` and `jquery` and `propper.js`). For more info check https://getbootstrap.com/docs/4.4/getting-started/download/#bootstrapcdn.
+
+Also update the `index.html` with all dependencies:
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            Serving up HTML
+        </div>
+    </div>
+    <script src="js/jquery.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
+```
+
+The drawback for the approach above is that we can not do an `npm undate` and get automatically all updates in the `public` directory.
+
+### 3.1. Static files - public directory
+
+Remove all the dependencies from `public` added manually.
+
+Create the mapings using `express.static` to the dependencies from `node_modules`:
+```javascript
+app.use(express.static(path.join(__dirname, 'public')));
+// if something is requested from public/css or from public/js and not found than look into the mappings below
+app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
+app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
+app.use('/js', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
+app.use('/js', express.static(path.join(__dirname, 'node_modules/popper.js/dist/umd')));
+```
