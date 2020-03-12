@@ -9,7 +9,9 @@
             "request": "launch",
             "name": "Start",
             "env": {
-                "DEBUG": "app"
+                "DEBUG": "app",
+                "NODE_ENV": "development",
+                "PORT": "3000"
             },
             "skipFiles": [
                 "<node_internals>/**"

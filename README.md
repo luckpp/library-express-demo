@@ -169,3 +169,29 @@ Below you can find a list of shorcuts that can help refactoring the code:
 
 4. `eslint **/*.js --fix`
     - will potentially fix linting errors and warnings
+
+### 4.4. Setting up Nodemon
+
+**Nodemon** reloads your application:
+- monitors your application
+- when you make code changes it's going to automatically restart your application
+- more info on https://nodemon.io/
+- it allows also to set environment variables
+- you can configure it inside `package.json`:
+```json
+{
+    "nodemonConfig": {
+        "restartable": "rs", // comand that will trigger resrart
+        "ignore": [ // changes to ignore
+            "node_modules/**/node_modules"
+        ],
+        "delay": "2500", // restart after this delay in milliseconds
+        "env": {
+            "DEBUG": "app",
+            "NODE_ENV": "development",
+            "PORT": "3000"
+        }
+    }
+}
+```
+NOTE: The environment variables can be accessed through `process.env` object.
