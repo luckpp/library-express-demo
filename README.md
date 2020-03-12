@@ -186,7 +186,7 @@ Below you can find a list of shorcuts that can help refactoring the code:
             "node_modules/**/node_modules"
         ],
         "delay": "2500", // restart after this delay in milliseconds
-        "env": {
+        "env": { // environment variables
             "DEBUG": "app",
             "NODE_ENV": "development",
             "PORT": "3000"
