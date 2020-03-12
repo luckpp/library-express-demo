@@ -126,3 +126,21 @@ app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/
 app.use('/js', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/popper.js/dist/umd')));
 ```
+
+## 4. Tooling
+
+### 4.1. ESLint
+
+```bash
+$ npm i eslint --save-dev
+$ npx eslint --init
+$ npx eslint **/*.js
+```
+
+In order to integrate **ESLint** with **Visual Studio Code** add the following plug-in:
+
+![Image description](./doc/images/eslint_lugin.png)
+
+### 4.2. The Node.js versions
+
+Check the JavaScript features available to each Node version on https://node.green/.
