@@ -138,8 +138,8 @@ $ npx eslint **/*.js
 ```
 
 In order to integrate **ESLint** with **Visual Studio Code** add the following plug-in:
+- **ESLint** created by **Dirk Baeumer**
 
-![Image description](https://raw.githubusercontent.com/luckpp/library-express-demo/master/doc/images/eslint_plugin.png)
 
 ### 4.2. The Node.js versions
 
