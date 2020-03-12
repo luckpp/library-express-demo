@@ -113,8 +113,7 @@ Also update the `index.html` with all dependencies:
 
 The drawback for the approach above is that we can not do an `npm undate` and get automatically all updates in the `public` directory.
 
-### 3.1. Static files - public directory
-
+### 3.1. Static files - node_modules
 Remove all the dependencies from `public` added manually.
 
 Create the mapings using `express.static` to the dependencies from `node_modules`:
