@@ -178,7 +178,7 @@ Below you can find a list of shorcuts that can help refactoring the code:
 - more info on https://nodemon.io/
 - it allows also to set environment variables
 - you can configure it inside `package.json`:
-```json
+```javascript
 {
     "nodemonConfig": {
         "restartable": "rs", // comand that will trigger resrart
