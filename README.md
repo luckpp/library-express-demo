@@ -144,3 +144,28 @@ In order to integrate **ESLint** with **Visual Studio Code** add the following p
 ### 4.2. The Node.js versions
 
 Check the JavaScript features available to each Node version on https://node.green/.
+
+### 4.3. Refactoring
+
+Below you can find a list of shorcuts that can help refactoring the code:
+
+1. Select text & CTRL + F2
+    - select text
+        - this will light up all similar text portions in editor
+    - CTRL + F2
+        - this will allow refactoring the lighted up text
+
+2. SHIFT + ALT + F
+    - or inside the text editor **right-click -> Format Document**
+        - this will format the entire document
+
+3. Shortcuts on the bottom editor tab. Example:
+    - **Go to Line**
+    - **Select Indentation**
+    - **Select Encoding**
+    - **Select End of Line Sequence**
+    - **Select Language Mode**
+    - ...
+
+4. `eslint **/*.js --fix`
+    - will potentially fix linting errors and warnings

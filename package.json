@@ -18,7 +18,9 @@
         "eslint-plugin-import": "2.20.1"
     },
     "scripts": {
-        "start-debug": "set DEBUG=app & nodemon app.js"
+        "prestart:debug": "npm run lint",
+        "start:debug": "set DEBUG=app & nodemon app.js",
+        "lint": "eslint app.js"
     },
     "repository": {
         "type": "git",
