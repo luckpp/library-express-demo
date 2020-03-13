@@ -197,7 +197,7 @@ NOTE: The environment variables can be accessed through `process.env` object.
 
 ## 5. Templating engine
 
-A templating engine can be used to dinamically generate HTML.
+A templating engine is a technology that can be used by `express` to dinamically generate HTML and serve it to the browser.
 
 ### 5.1. Pug
 
@@ -279,4 +279,34 @@ NOTE:
 - You can install Visual Studio Code EJS support by adding the following extension: **EJS language support** created by **DigitalBrainstem**
 - **We use in this demo a templating engine only to keep things simple and focus on Node.js and Express**
 
+### 5.3. Templates
 
+When starting a new project it is better not to start from scratch. So it is recommended to use a predefined template:
+- go to https://www.bootstrapzero.com/l to get a free template
+
+## 6. Routing
+
+A `router` allows you to encapsulate all of your routes in one place:
+
+```javascript
+const bookRouter = express.Router();
+//...
+
+bookRouter.route('/books')
+  .get((req, res) => {
+    res.send('hello books');
+  });
+app.use('/', bookRouter);
+
+// OR
+
+bookRouter.route('/')
+  .get((req, res) => {
+    res.send('hello books');
+  });
+bookRouter.route('/single')
+  .get((req, res) => {
+    res.send('hello single book');
+  });
+app.use('/books', bookRouter); // to make it clear
+```
