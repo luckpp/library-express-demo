@@ -202,9 +202,12 @@ A templating engine can be used to dinamically generate HTML.
 ### 5.1. Pug
 
 In order to start using **Pug** do the following setps:
+
 - `npm i pug`
+
 - create the folder 'src\views'
   - add the `index.pug` file:
+
 ```pug
 html
   head
@@ -217,7 +220,9 @@ html
         each val in list
           li=val
 ```
+
 - update the **app.js** with the following code:
+
 ```javascript
 app.set('views', './src/views'); // set the views directory
 app.set('view engine', 'pug'); // set the view engine we will use -> when Express starts to look of what to use it will look for 'pug'
@@ -230,3 +235,48 @@ app.get('/', (req, res) => {
   }); // this will render a view called index
 });
 ```
+
+### 5.2. EJS
+
+In order to start using **EJS** do the following setps:
+
+- `npm i ejs`
+
+- create the folder 'src\views'
+  - add the `index.ejs` file:
+
+```ejs
+<html>
+<head>
+</head>
+<body>
+  <h1>
+    Welcome to <%=title%>
+  </h1>
+  <ul>
+    <% for(var i=0; i<list.length; i++) { %>
+    <li><%=list[i]%></li>
+    <% } %>
+  </ul>
+</body>
+</html>
+```
+
+- update the **app.js** with the following code:
+
+```javascript
+app.set('views', './src/views');
+app.set('view engine', 'ejs');
+app.get('/', (req, res) => {
+  res.render('index', {
+    title: 'Library',
+    list: ['a', 'b']
+  });
+});
+```
+
+NOTE:
+- You can install Visual Studio Code EJS support by adding the following extension: **EJS language support** created by **DigitalBrainstem**
+- **We use in this demo a templating engine only to keep things simple and focus on Node.js and Express**
+
+

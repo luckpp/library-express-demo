@@ -1,6 +1,6 @@
 const express = require('express');
 const chalk = require('chalk');
-const debug = require('debug')('app'); // tell that we are in app
+const debug = require('debug')('app');
 const morgan = require('morgan');
 const path = require('path');
 
@@ -9,23 +9,35 @@ const port = process.env.PORT || 3000;
 
 app.use(morgan('tiny'));
 app.use(express.static(path.join(__dirname, 'public')));
-// if something is requested from public/css or from public/js and not found than
-// look into the mappings below
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/popper.js/dist/umd')));
 
-app.set('views', './src/views'); // set the views directory
-app.set('view engine', 'pug'); // set the view engine we will use -> when Express starts to look of what to use it will look for 'pug'
-
-app.get('/', (req, res) => {
-  // res.sendFile(path.join(__dirname, 'views', 'index.html'));
-  res.render('index', {
-    title: 'MyLibrary',
-    list: ['a', 'b']
-  }); // this will render a view called index
-});
+const templatingEngine = process.env.TEMPLATING_ENGINE;
+if (templatingEngine === 'static') {
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+  });
+} else if (templatingEngine === 'pug') {
+  app.set('views', './src/views');
+  app.set('view engine', 'pug');
+  app.get('/', (req, res) => {
+    res.render('index', {
+      title: 'MyLibrary',
+      list: ['a', 'b']
+    });
+  });
+} else if (templatingEngine === 'ejs') {
+  app.set('views', './src/views');
+  app.set('view engine', 'ejs');
+  app.get('/', (req, res) => {
+    res.render('index', {
+      title: 'Library',
+      list: ['a', 'b']
+    });
+  });
+}
 
 app.listen(port, () => {
   debug(`listening on port ${chalk.green(port)}`);
