@@ -194,3 +194,39 @@ Below you can find a list of shorcuts that can help refactoring the code:
 }
 ```
 NOTE: The environment variables can be accessed through `process.env` object.
+
+## 5. Templating engine
+
+A templating engine can be used to dinamically generate HTML.
+
+### 5.1. Pug
+
+In order to start using **Pug** do the following setps:
+- `npm i pug`
+- create the folder 'src\views'
+  - add the `index.pug` file:
+```pug
+html
+  head
+    title MyApp
+  body(class=['myClass'])
+    h1(id='myId')= title
+    p
+      h3 sub header
+      ul
+        each val in list
+          li=val
+```
+- update the **app.js** with the following code:
+```javascript
+app.set('views', './src/views'); // set the views directory
+app.set('view engine', 'pug'); // set the view engine we will use -> when Express starts to look of what to use it will look for 'pug'
+
+app.get('/', (req, res) => {
+  // res.sendFile(path.join(__dirname, 'views', 'index.html'));
+  res.render('index', {
+    title: 'MyLibrary',
+    list: ['a', 'b']
+  }); // this will render a view called index
+});
+```

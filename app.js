@@ -16,8 +16,15 @@ app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/
 app.use('/js', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/popper.js/dist/umd')));
 
+app.set('views', './src/views'); // set the views directory
+app.set('view engine', 'pug'); // set the view engine we will use -> when Express starts to look of what to use it will look for 'pug'
+
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
+  // res.sendFile(path.join(__dirname, 'views', 'index.html'));
+  res.render('index', {
+    title: 'MyLibrary',
+    list: ['a', 'b']
+  }); // this will render a view called index
 });
 
 app.listen(port, () => {
