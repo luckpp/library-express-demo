@@ -433,13 +433,33 @@ bookRouter.route('/')
   .get((req, res) => {
     (async function query() {
       const request = new sql.Request();
-      const result = await request.query('SELECT * FROM books');
+      const { recordset } = await request.query('SELECT * FROM books');
       res.render('bookListView', {
         title: 'Library',
         nav,
-        books: result.recordset
+        books: recordset
       });
     }());
   });
 ```
 
+**NOTE: In `bookRouters` we do not need to connect to the SQL Azure DB since we have already done this in `app.js` and `Node.js` takes care to provide in `bookRouters` the same `mssql` instance as in `app.js` (see Common.js pattern implemented by Node.js require).**
+
+- to query using an **input parameter** it is important to use the functionality offered by `mssql` library:
+```javascript
+bookRouter.route('/:id')
+  .get((req, res) => {
+    (async function query() {
+      const { id } = req.params;
+      const request = new sql.Request();
+      const { recordset } = await request
+        .input('id', sql.Int, id)
+        .query('SELECT * FROM books WHERE id=@id');
+      res.render('bookView', {
+        title: 'Library',
+        nav,
+        book: recordset[0]
+      });
+    }());
+  });
+```
