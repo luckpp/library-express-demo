@@ -1,80 +1,24 @@
 const express = require('express');
-const debug = require('debug')('app');
+const sql = require('mssql');
+const { createBooks } = require('../data/booksMock');
 
 const bookRouter = express.Router();
 
-function printSQLInsert(books) {
-  const sqlBookList = [];
-
-  books.forEach((book, index) => {
-    sqlBookList.push(`    (${index}, '${book.title}', '${book.author}')`);
-  });
-
-  console.log('INSERT INTO books (id, title, author) VALUES');
-  console.log(sqlBookList.join(', \n'));
-}
-
 function router(nav) {
-  const books = [
-    {
-      title: 'War and Peace',
-      genre: 'Historical Fiction',
-      author: 'Lev Nikolayevich Tolstoy',
-      read: false
-    },
-    {
-      title: 'Les Misérables',
-      genre: 'Historical Fiction',
-      author: 'Victor Hugo',
-      read: false
-    },
-    {
-      title: 'The Time Machine',
-      genre: 'Science Fiction',
-      author: 'H. G. Wells',
-      read: false
-    },
-    {
-      title: 'A Journey into the Center of the Earth',
-      genre: 'Science Fiction',
-      author: 'Jules Verne',
-      read: false
-    },
-    {
-      title: 'The Dark World',
-      genre: 'Fantasy',
-      author: 'Henry Kuttner',
-      read: false
-    },
-    {
-      title: 'The Wind in the Willows',
-      genre: 'Fantasy',
-      author: 'Kenneth Grahame',
-      read: false
-    },
-    {
-      title: 'Life On The Mississippi',
-      genre: 'History',
-      author: 'Mark Twain',
-      read: false
-    },
-    {
-      title: 'Childhood',
-      genre: 'Biography',
-      author: 'Lev Nikolayevich Tolstoy',
-      read: false
-    }
-  ];
-
-  printSQLInsert(books);
+  const books = createBooks();
 
   bookRouter.route('/')
     .get((req, res) => {
-      res.render('bookListView', {
-        title: 'Library',
-        nav,
-        books
-      });
+      const request = new sql.Request();
+      request.query('SELECT * FROM books')
+        .then(result => {
+          console.log(JSON.stringify(result.recordset, null, 2));
+          res.render('bookListView', {
+            title: 'Library',
+            nav,
+            books: result.recordset
+          });
+        });
     });
 
   bookRouter.route('/:id')

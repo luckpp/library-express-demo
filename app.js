@@ -3,9 +3,24 @@ const chalk = require('chalk');
 const debug = require('debug')('app');
 const morgan = require('morgan');
 const path = require('path');
+const sql = require('mssql');
+const fs = require('fs');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+const config = {
+  user: 'library-demo-admin',
+  password: fs.readFileSync('D:\\Temp\\LIBRARY_DEMO_ADMIN_PASS.txt').toString(),
+  server: 'library-demo-server.database.windows.net',
+  database: 'library-demo',
+  options: {
+    encrypt: true // Use this if you are on Windows Azure
+  }
+};
+sql.connect(config).catch(error => {
+  debug(`ERROR ${error} - Connection config to ${JSON.stringify(config)}`);
+});
 
 app.use(morgan('tiny'));
 app.use(express.static(path.join(__dirname, 'public')));

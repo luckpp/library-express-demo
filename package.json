@@ -11,6 +11,7 @@
     "express": "4.17.1",
     "jquery": "3.4.1",
     "morgan": "1.9.1",
+    "mssql": "^6.2.0",
     "popper.js": "1.16.1",
     "pug": "2.0.4"
   },
@@ -22,7 +23,7 @@
   },
   "scripts": {
     "prestart:debug": "npm run lint",
-    "start:debug": "set DEBUG=app & nodemon app.js",
+    "start:debug": "set DEBUG=app:* & nodemon app.js",
     "lint": "eslint app.js"
   },
   "repository": {

@@ -317,7 +317,7 @@ app.use('/books', bookRouter); // to make it clear
 
 You can use a SQL DB hosted on Microsoft Azure.
 
-In order to do the set-up follow the steps below:
+### 7.1.1 Create a SQL DB on Microsoft Azure
 
 - go to http://azure.microsoft.com/
   - create a free account
@@ -366,3 +366,45 @@ INSERT INTO books (id, title, author) VALUES
 ```SQL
 SELECT TOP (1000) * FROM [dbo].[books]
 ```
+
+### 7.1.2 Connect to a SQL DB on Microsoft Azure
+
+- install `mssql` npm package:
+  - `npm i mssql`
+
+- connect to SQL DB on Microsoft Azure:
+
+``` javascript
+const sql = require('mssql');
+//...
+
+const config = {
+  user: 'library-demo-admin',
+  password: fs.readFileSync('D:\\Temp\\LIBRARY_DEMO_ADMIN_PASS.txt').toString(),
+  server: 'library-demo-server.database.windows.net',
+  database: 'library-demo',
+  options: {
+    encrypt: true // Use this if you are on Windows Azure
+  }
+};
+sql.connect(config).catch(error => {
+  debug(`ERROR ${error} - Connection config to ${JSON.stringify(config)}`);
+});
+```
+
+- explanations for the `config` from the code abowe:
+  - the user `library-demo-admin` has been created on previous chapter
+  - the server can be found on https://portal.azure.com/
+    - **Home -> All resources -> library-demo (library-demo-server/library-demo)**
+    - **Overview**
+
+NOTE: It is important to properly set-up the firewall rules on the Azure portal so that clients can connect to the SQL DB. Go to:
+  - **Home -> All resources -> library-demo (library-demo-server/library-demo)**
+  - **Overview**
+  - **Set server firewall**
+  - click **Add client IP**
+  - click **Save**
+
+- after creating the connection to SQL DB, create a request:
+  - go to `bookRoutes.js`
+
