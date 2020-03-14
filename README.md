@@ -447,6 +447,8 @@ bookRouter.route('/')
 
 - to query using an **input parameter** it is important to use the functionality offered by `mssql` library:
 ```javascript
+const sql = require('mssql');
+//...
 bookRouter.route('/:id')
   .get((req, res) => {
     (async function query() {
