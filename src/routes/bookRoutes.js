@@ -9,16 +9,15 @@ function router(nav) {
 
   bookRouter.route('/')
     .get((req, res) => {
-      const request = new sql.Request();
-      request.query('SELECT * FROM books')
-        .then(result => {
-          console.log(JSON.stringify(result.recordset, null, 2));
-          res.render('bookListView', {
-            title: 'Library',
-            nav,
-            books: result.recordset
-          });
+      (async function query() {
+        const request = new sql.Request();
+        const result = await request.query('SELECT * FROM books');
+        res.render('bookListView', {
+          title: 'Library',
+          nav,
+          books: result.recordset
         });
+      }());
     });
 
   bookRouter.route('/:id')

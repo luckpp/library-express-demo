@@ -425,3 +425,21 @@ bookRouter.route('/')
   });
 ```
 
+NOTE: the code above is **old style** since we use promisses. In order to refactor you can use an `IIFE` in combination with `async / await`:
+```javascript
+const sql = require('mssql');
+//...
+bookRouter.route('/')
+  .get((req, res) => {
+    (async function query() {
+      const request = new sql.Request();
+      const result = await request.query('SELECT * FROM books');
+      res.render('bookListView', {
+        title: 'Library',
+        nav,
+        books: result.recordset
+      });
+    }());
+  });
+```
+
