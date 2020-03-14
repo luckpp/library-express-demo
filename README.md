@@ -407,4 +407,21 @@ NOTE: It is important to properly set-up the firewall rules on the Azure portal 
 
 - after creating the connection to SQL DB, create a request:
   - go to `bookRoutes.js`
+```javascript
+const sql = require('mssql');
+//...
+bookRouter.route('/')
+  .get((req, res) => {
+    const request = new sql.Request();
+    request.query('SELECT * FROM books')
+      .then(result => {
+        console.log(JSON.stringify(result.recordset, null, 2));
+        res.render('bookListView', {
+          title: 'Library',
+          nav,
+          books: result.recordset
+        });
+      });
+  });
+```
 
