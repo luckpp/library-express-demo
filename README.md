@@ -310,3 +310,59 @@ bookRouter.route('/single')
   });
 app.use('/books', bookRouter); // to make it clear
 ```
+
+## 7. Databases
+
+### 7.1. SQL DB
+
+You can use a SQL DB hosted on Microsoft Azure.
+
+In order to do the set-up follow the steps below:
+
+- go to http://azure.microsoft.com/
+  - create a free account
+
+- go to https://portal.azure.com/
+  - create a SQL DB:
+    - Name: `library-demo`
+    - Resource Group: `library-dem-group`
+    - Server Name: `library-demo-server`
+    - Admin: `library-demo-admin`
+
+- the newly created DB should be available on the Azure portal under Resources
+
+- navigate to `Home -> All resources -> library-demo (library-demo-server/library-demo)`
+  - open the `Query editor (preview)`
+  - login with `library-demo-admin` user
+
+- create a new query that will add the **books** table
+```SQL
+CREATE TABLE books (
+    title varchar(255),
+    author varchar(255)
+)
+```
+
+- to add additional columns you can create a new query:
+```SQL
+ALTER TABLE books
+    ADD id int;
+```
+
+- to populate the **books** table with data create a new query:
+```javascript
+INSERT INTO books (id, title, author) VALUES
+    (0, 'War and Peace', 'Lev Nikolayevich Tolstoy'),
+    (1, 'Les Misérables', 'Victor Hugo'),
+    (2, 'The Time Machine', 'H. G. Wells'),
+    (3, 'A Journey into the Center of the Earth', 'Jules Verne'),
+    (4, 'The Dark World', 'Henry Kuttner'),
+    (5, 'The Wind in the Willows', 'Kenneth Grahame'),
+    (6, 'Life On The Mississippi', 'Mark Twain'),
+    (7, 'Childhood', 'Lev Nikolayevich Tolstoy')
+```
+
+- to view the data that has been inserted create a new query:
+```SQL
+SELECT TOP (1000) * FROM [dbo].[books]
+```

@@ -1,6 +1,18 @@
 const express = require('express');
+const debug = require('debug')('app');
 
 const bookRouter = express.Router();
+
+function printSQLInsert(books) {
+  const sqlBookList = [];
+
+  books.forEach((book, index) => {
+    sqlBookList.push(`    (${index}, '${book.title}', '${book.author}')`);
+  });
+
+  console.log('INSERT INTO books (id, title, author) VALUES');
+  console.log(sqlBookList.join(', \n'));
+}
 
 function router(nav) {
   const books = [
@@ -53,6 +65,8 @@ function router(nav) {
       read: false
     }
   ];
+
+  printSQLInsert(books);
 
   bookRouter.route('/')
     .get((req, res) => {
