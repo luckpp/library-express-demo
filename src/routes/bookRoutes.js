@@ -18,19 +18,23 @@ function router(nav) {
     });
 
   bookRouter.route('/:id')
-    .get((req, res) => {
+    .all((req, res, next) => {
       (async function query() {
         const { id } = req.params;
         const request = new sql.Request();
         const { recordset } = await request
           .input('id', sql.Int, id)
           .query('SELECT * FROM books WHERE id=@id');
-        res.render('bookView', {
-          title: 'Library',
-          nav,
-          book: recordset[0]
-        });
+        [req.book] = recordset;
+        next();
       }());
+    })
+    .get((req, res) => {
+      res.render('bookView', {
+        title: 'Library',
+        nav,
+        book: req.book
+      });
     });
 
   return bookRouter;

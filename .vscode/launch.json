@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Start",
       "env": {
-        "DEBUG": "app:*",
+        "DEBUG": "app,app:*",
         "NODE_ENV": "development",
         "PORT": "4000",
         "TEMPLATING_ENGINE": "ejs"

@@ -465,3 +465,37 @@ bookRouter.route('/:id')
     }());
   });
 ```
+
+### 7.2. Middleware
+
+A middleware is a function that is executed on every request that comes in:
+```javascript
+app.use(function(req, res, next) {
+  console.log('my middleware');
+  next();
+});
+```
+
+In `bookRoutes.js` you can add the following middleware to compute the book based in te `id`:
+```javascript
+bookRouter.route('/:id')
+  .all((req, res, next) => {
+    (async function query() {
+      const { id } = req.params;
+      const request = new sql.Request();
+      const { recordset } = await request
+        .input('id', sql.Int, id)
+        .query('SELECT * FROM books WHERE id=@id');
+      [req.book] = recordset;
+      next();
+    }());
+  })
+  .get((req, res) => {
+    res.render('bookView', {
+      title: 'Library',
+      nav,
+      book: req.book
+    });
+  });
+```
+
