@@ -508,6 +508,8 @@ You can use the `mongodb` nom package https://www.npmjs.com/package/mongoose
 
 To insert data into a mogo collection folow the steps below:
 ```javascript
+const { MongoClient } = require('mongodb');
+//...
 const url = 'mongodb://localhost:27017';
 const dbName = 'library-demo';
 (async function mongo() {
@@ -528,4 +530,14 @@ const dbName = 'library-demo';
 ```
 
 NOTE: The fundamental difference between MongoDB and SQL Server, Oracle or MySQL is that MongoDB will create whatewer it needs (the required **DB** or the required **collection**)
+
+To query for a single document by `_id` use the `ObjectID`:
+```javascript
+const { MongoClient, ObjectID } = require('mongodb');
+//...
+client = await MongoClient.connect(url);
+const db = client.db(dbName);
+const col = await db.collection('books');
+const book = await col.findOne({ _id: new ObjectID(id) });
+```
 
