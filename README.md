@@ -540,4 +540,3 @@ const db = client.db(dbName);
 const col = await db.collection('books');
 const book = await col.findOne({ _id: new ObjectID(id) });
 ```
-
