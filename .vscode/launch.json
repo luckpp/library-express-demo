@@ -12,7 +12,8 @@
         "DEBUG": "app,app:*",
         "NODE_ENV": "development",
         "PORT": "4000",
-        "TEMPLATING_ENGINE": "ejs"
+        "TEMPLATING_ENGINE": "ejs",
+        "DB": "mongo"
       },
       "skipFiles": [
         "<node_internals>/**"

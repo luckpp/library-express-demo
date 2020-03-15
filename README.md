@@ -499,3 +499,7 @@ bookRouter.route('/:id')
   });
 ```
 
+### 7.2. MongoDB
+
+MongoDB can be installed locally from https://www.mongodb.com/.
+

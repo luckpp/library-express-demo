@@ -3,24 +3,12 @@ const chalk = require('chalk');
 const debug = require('debug')('app');
 const morgan = require('morgan');
 const path = require('path');
-const sql = require('mssql');
-const fs = require('fs');
+const db = require('./db');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-const config = {
-  user: 'library-demo-admin',
-  password: fs.readFileSync('D:\\Temp\\LIBRARY_DEMO_ADMIN_PASS.txt').toString(),
-  server: 'library-demo-server.database.windows.net',
-  database: 'library-demo',
-  options: {
-    encrypt: true // Use this if you are on Windows Azure
-  }
-};
-sql.connect(config).catch(error => {
-  debug(`ERROR ${error} - Connection config to ${JSON.stringify(config)}`);
-});
+db.connect();
 
 app.use(morgan('tiny'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -33,7 +21,9 @@ const nav = [
   { link: '/books', title: 'Book' },
   { link: '/authors', title: 'Author' }
 ];
-const bookRouter = require('./src/routes/bookRoutes')(nav);
+const bookRouter = process.env.DB === 'sql'
+  ? require('./src/routes/bookRoutesSql')(nav)
+  : require('./src/routes/bookRoutesMongo')(nav);
 
 const templatingEngine = process.env.TEMPLATING_ENGINE;
 if (templatingEngine === 'static') {
