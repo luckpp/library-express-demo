@@ -24,6 +24,7 @@ const nav = [
 const bookRouter = process.env.DB === 'sql'
   ? require('./src/routes/bookRoutesSql')(nav)
   : require('./src/routes/bookRoutesMongo')(nav);
+const adminRouter = require('./src/routes/adminRoutes')(nav);
 
 const templatingEngine = process.env.TEMPLATING_ENGINE;
 if (templatingEngine === 'static') {
@@ -44,6 +45,7 @@ if (templatingEngine === 'static') {
   app.set('view engine', 'ejs');
 
   app.use('/books', bookRouter);
+  app.use('/admin', adminRouter);
 
   app.get('/', (req, res) => {
     res.render('index', {
