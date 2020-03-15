@@ -503,3 +503,29 @@ bookRouter.route('/:id')
 
 MongoDB can be installed locally from https://www.mongodb.com/.
 
+You can use the `mongodb` nom package https://www.npmjs.com/package/mongoose
+- `npm i mongodb`
+
+To insert data into a mogo collection folow the steps below:
+```javascript
+const url = 'mongodb://localhost:27017';
+const dbName = 'library-demo';
+(async function mongo() {
+  let client;
+  try {
+    client = await MongoClient.connect(url);
+    debug('connected correctly to MongoDB');
+
+    const db = client.db(dbName);
+
+    const response = await db.collection('books').insertMany(books);
+    res.json(response);
+  } catch (error) {
+    debug(error.stack);
+  }
+  client.close();
+}());
+```
+
+NOTE: The fundamental difference between MongoDB and SQL Server, Oracle or MySQL is that MongoDB will create whatewer it needs (the required **DB** or the required **collection**)
+
