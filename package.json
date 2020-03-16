@@ -4,6 +4,7 @@
   "description": "Demo based on Pluralsight course https://app.pluralsight.com/library/courses/nodejs-express-web-applications-update/table-of-contents.",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "bootstrap": "4.4.1",
     "chalk": "3.0.0",
     "debug": "4.1.1",

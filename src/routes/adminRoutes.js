@@ -4,6 +4,7 @@ const { MongoClient } = require('mongodb');
 const booksMock = require('../data/booksMock');
 
 const adminRouter = express.Router();
+
 const books = booksMock
   .createBooks()
   .map(book => {
@@ -33,7 +34,6 @@ function router() {
         client.close();
       }());
     });
-
   return adminRouter;
 }
 

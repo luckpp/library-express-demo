@@ -290,7 +290,7 @@ A `router` allows you to encapsulate all of your routes in one place:
 
 ```javascript
 const bookRouter = express.Router();
-//...
+// ...
 
 bookRouter.route('/books')
   .get((req, res) => {
@@ -376,7 +376,7 @@ SELECT TOP (1000) * FROM [dbo].[books]
 
 ``` javascript
 const sql = require('mssql');
-//...
+// ...
 
 const config = {
   user: 'library-demo-admin',
@@ -409,7 +409,7 @@ NOTE: It is important to properly set-up the firewall rules on the Azure portal 
   - go to `bookRoutes.js`
 ```javascript
 const sql = require('mssql');
-//...
+// ...
 bookRouter.route('/')
   .get((req, res) => {
     const request = new sql.Request();
@@ -428,7 +428,7 @@ bookRouter.route('/')
 NOTE: the code above is **old style** since we use promisses. In order to refactor you can use an `IIFE` in combination with `async / await`:
 ```javascript
 const sql = require('mssql');
-//...
+// ...
 bookRouter.route('/')
   .get((req, res) => {
     (async function query() {
@@ -448,7 +448,7 @@ bookRouter.route('/')
 - to query using an **input parameter** it is important to use the functionality offered by `mssql` library:
 ```javascript
 const sql = require('mssql');
-//...
+// ...
 bookRouter.route('/:id')
   .get((req, res) => {
     (async function query() {
@@ -509,7 +509,7 @@ You can use the `mongodb` nom package https://www.npmjs.com/package/mongoose
 To insert data into a mogo collection folow the steps below:
 ```javascript
 const { MongoClient } = require('mongodb');
-//...
+// ...
 const url = 'mongodb://localhost:27017';
 const dbName = 'library-demo';
 (async function mongo() {
@@ -534,9 +534,22 @@ NOTE: The fundamental difference between MongoDB and SQL Server, Oracle or MySQL
 To query for a single document by `_id` use the `ObjectID`:
 ```javascript
 const { MongoClient, ObjectID } = require('mongodb');
-//...
+// ...
 client = await MongoClient.connect(url);
 const db = client.db(dbName);
 const col = await db.collection('books');
 const book = await col.findOne({ _id: new ObjectID(id) });
 ```
+
+### 8. Authentication
+
+In order to POST (create) data to the server we need to parse the body of the POST request. Use the `body-parser` npm package to do so: `npm i body-parser`:
+```javascript
+const bodyParser = require('body-parser');
+// ...
+app.use(morgan('tiny'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+```
+
+The above middleware will take care of putting the body of the POST request into the `req.body`.
