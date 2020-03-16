@@ -553,3 +553,57 @@ app.use(bodyParser.urlencoded({ extended: false }));
 ```
 
 The above middleware will take care of putting the body of the POST request into the `req.body`.
+
+### 8.1. Passport
+
+In order to deal with user authentication and authorization we use the `passport` npm package: https://www.npmjs.com/package/passport.
+
+Passport:
+- is responsible with maintaining your user object in the session
+- deals with dropping the user in a cookie, and pooling it out of a cookie
+- applying the user to sessions.
+
+In order to work with `passport` we need two additional npm packages `cookie-parser` and `express-session`:
+- `npm i passport cookie-parser express-session`
+```javascript
+// inside app.js
+app.use(cookieParser());
+app.use(session({ secret: 'library-demo' }));
+require('./src/config/passport.js')(app);
+
+// inside ./src/config/passport.js
+
+const passport = require('passport');
+
+function passportConfig(app) {
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // Stores user in session
+  passport.serializeUser((user, done) => {
+    done(null, user);
+    // the error is 'null' -> in Node.js we do the error first
+    // currently we store the entire user in the session
+    // most of the times we want to store only pieces of user in the session (like user.id)
+  });
+
+  // Retrieves user from session
+  passport.deserializeUser((user, done) => {
+    // if in the serialize user we would have passed the user.id
+    // here in deserialize we would have received if (userId, done) => { ... }
+    done(null, user);
+  });
+
+  require('./strategies/local.strategy');
+}
+
+module.exports = passportConfig;
+```
+
+There are different ways to do authentication with:
+- username & password
+- Google
+- Facebook
+- ...
+=> we do not want to deal with all this options so `passport` it implements the ideea of a strategy.
+
